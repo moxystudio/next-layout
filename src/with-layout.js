@@ -1,7 +1,7 @@
 const layoutSymbol = Symbol('layout');
 
 const withLayout = (mapToLayout) => (Component) => {
-    const value = typeof layout === 'function' ? mapToLayout : () => mapToLayout;
+    const value = typeof mapToLayout === 'function' ? mapToLayout : () => mapToLayout;
 
     Object.defineProperty(Component, layoutSymbol, { value });
 
@@ -12,8 +12,8 @@ export const getLayoutFromPage = (Component, pageProps, defaultLayout) => {
     const layout = Component[layoutSymbol]?.(pageProps) ?? defaultLayout;
 
     return {
-        Layout: layout.type,
-        layoutProps: layout.props,
+        Layout: layout?.type,
+        layoutProps: layout?.props,
     };
 };
 
