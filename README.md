@@ -72,25 +72,25 @@ export default withLayout(<PrimaryLayout variant="light" />)(About);
 
 `@moxy/next-layout` exposes a `<LayoutManager>` component and a `withLayout` to be used in pages.
 
-## &lt;LayoutManager&gt;
+### &lt;LayoutManager&gt;
 
 A component that manages the current layout to be used based on what the active page specifies. It keeps the layout persistent between page transitions whenever possible (e.g.: when the layout is the same).
 
 Here's the list of props it supports:
 
-### Component
+#### Component
 
 Type: `ReactElementType`
 
 The page component, which maps to your App `Component` prop.
 
-### pageProps
+#### pageProps
 
 Type: `object`
 
 The page component props, which maps to your App `pageProps` prop.
 
-### defaultLayout
+#### defaultLayout
 
 Type: `ReactElement`
 
@@ -112,7 +112,7 @@ const App = ({ Component, pageProps }) => (
 export default App;
 ```
 
-### children
+#### children
 
 Type: `function`
 
@@ -158,11 +158,11 @@ const App = ({ Component, pageProps }) => (
 );
 ```
 
-## withLayout(layout)(Page)
+### withLayout(layout)(Page)
 
 Sets up a `Page` component with the ability to select which `layout` to use. Moreover, it injects a `setLayoutProps` prop so that you may dynamically update the layout props.
 
-### layout
+#### layout
 
 Type: `ReactElement` or `function`
 
@@ -170,13 +170,13 @@ The layout to use for the `Page`. Can either be a `ReactElement` or a function t
 
 The function form is useful when page props affects layout props. It has the following signature: `(ownProps) => <ReactElement>`. Please note that the function only runs once to determine the layout and its initial props.
 
-### Page
+#### Page
 
 Type: `ReactElementType`
 
 The page component to wrap.
 
-### Injected setLayoutProps
+#### Injected setLayoutProps
 
 Type: `function`
 
