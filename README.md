@@ -92,7 +92,7 @@ The page component props, which maps to your App `pageProps` prop.
 
 #### defaultLayout
 
-Type: `ReactElement`
+Type: `ReactElement`   
 
 The default layout to be used when a child page doesn't explicitly sets one.
 
@@ -158,7 +158,7 @@ const App = ({ Component, pageProps }) => (
 );
 ```
 
-### withLayout(layout)(Page)
+### withLayout(layout?)(Page)
 
 Sets up a `Page` component with the ability to select which `layout` to use. Moreover, it injects a `setLayoutProps` prop so that you may dynamically update the layout props.
 
