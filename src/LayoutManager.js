@@ -42,7 +42,7 @@ export default class LayoutManager extends Component {
     state = {};
 
     render() {
-        const { Component, pageProps } = this.props;
+        const { Component, pageProps, children } = this.props;
         const { Layout, layoutProps, layoutCounter, pageCounter } = this.state;
 
         const layoutKey = `layout-${layoutCounter.toString()}`;
@@ -50,7 +50,7 @@ export default class LayoutManager extends Component {
         const finalPageProps = shouldInjectSetLayoutProp(Component) ?
             { setLayoutProps: this.setLayoutProps, ...pageProps } : pageProps;
 
-        return this.props.children({
+        return children({
             Layout,
             layoutProps,
             layoutKey,
