@@ -9,7 +9,7 @@ export default class LayoutManager extends Component {
         Component: PropTypes.elementType.isRequired,
         pageProps: PropTypes.object,
         defaultLayout: PropTypes.element,
-        children: PropTypes.func,
+        children: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
