@@ -1,0 +1,12 @@
+{
+    "root": true,
+    "extends": [
+        "@moxy/eslint-config/es10",
+        "@moxy/eslint-config/addons/browser",
+        "@moxy/eslint-config/addons/node",
+        "@moxy/eslint-config/addons/react",
+        "@moxy/eslint-config/addons/babel-parser",
+        "@moxy/eslint-config/addons/es-modules",
+        "@moxy/eslint-config/addons/jest"
+    ]
+}
