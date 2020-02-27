@@ -21,7 +21,7 @@ const addPageToLayoutTree = (layoutNode, page) => cloneElement(layoutNode, {
 
 const createFullTree = (layoutTree, page) => {
     if (!layoutTree) {
-        return layoutTree;
+        return;
     }
 
     validateLayoutTree(layoutTree);

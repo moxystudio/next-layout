@@ -21,8 +21,8 @@ export default class LayoutTree extends PureComponent {
     static getDerivedStateFromProps(props, state) {
         const { Component, pageProps } = props;
 
-        const didPageChanged = props.Component !== state.Component;
-        const layoutTree = didPageChanged ? getInitialLayoutTree(Component, pageProps) : state.layoutTree;
+        const didPageChange = props.Component !== state.Component;
+        const layoutTree = didPageChange ? getInitialLayoutTree(Component, pageProps) : state.layoutTree;
 
         return {
             Component,

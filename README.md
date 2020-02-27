@@ -182,13 +182,13 @@ Sets up a `Page` component with the ability to specify which layout tree to use.
 
 Type: `ReactElement` or `function`
 
-In simple cases, you may defined a "static" layout tree, like so:
+In simple cases, you may define a "static" layout tree, like so:
 
 ```js
 export default withLayout(<PrimaryLayout variant="light" />)(Home);
 ```
 
-However, you might be having external props, component state or other mutations influencing the layout tree. In those cases, you may pass a function that maps **layout state** into a tree, with the following signature: `(layoutState) => <ReactElement>`. Here's an example:
+However, you might have external props, component state or other mutations influencing the layout tree. In those cases, you may pass a function that maps **layout state** into a tree, with the following signature: `(layoutState) => <ReactElement>`. Here's an example:
 
 ```js
 const mapLayoutStateToLayoutTree = ({ variant }) => <PrimaryLayout variant={ variant } />;
@@ -214,7 +214,7 @@ The page component to wrap.
 
 Type: `function`
 
-Allows to dynamically change the layout state. Has the following signature: `(newState | updater?)`.
+Allows dynamic changes to the layout state. Has the following signature: `(newState | updater?)`.
 
 The behavior of `setLayoutState` is exactly the same as [`setState`](https://reactjs.org/docs/react-component.html#setstate) of class components: it merges properties and it supports both an object or an updater function.
 
@@ -228,8 +228,8 @@ import styles from './about.module.css';
 
 const About = ({ setLayoutState }) => {
     const handleSetToDark = useCallback(() => {
-        setLayoutState({ variant="dark" });
-        // ..or setLayoutState((layoutState) => ({ variant="dark" }));
+        setLayoutState({ variant: 'dark' });
+        // ..or setLayoutState((layoutState) => ({ variant: 'dark' }));
     }, [setLayoutState]);
 
     return (
@@ -242,7 +242,7 @@ const About = ({ setLayoutState }) => {
 
 const mapLayoutStateToLayoutTree = ({ variant }) => <PrimaryLayout variant={ variant } />;
 
-export default withLayout(mapLayoutStateToLayoutTree, { variant: "light" })(About);
+export default withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(About);
 ```
 
 ## Tests

@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, forwardRef, useEffect, useRef } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import useClassState from './util/use-class-state';
+import useObjectState from './util/use-object-state';
 import LayoutContext from './util/context';
 
 const toFunction = (fn) => typeof fn === 'function' ? fn : () => fn;
@@ -22,7 +22,7 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
             }
 
             const { updateLayoutTree } = useContext(LayoutContext);
-            const [layoutState, setLayoutState] = useClassState(initialLayoutStateRef.current);
+            const [layoutState, setLayoutState] = useObjectState(initialLayoutStateRef.current);
 
             useEffect(() => {
                 if (layoutState !== initialLayoutStateRef.current) {
