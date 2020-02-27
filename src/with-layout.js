@@ -1,22 +1,58 @@
-const layoutSymbol = Symbol('layout');
+import React, { useContext, useMemo, forwardRef, useEffect, useRef } from 'react';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+import useObjectState from './util/use-object-state';
+import LayoutContext from './util/context';
 
-const withLayout = (mapToLayout) => (Component) => {
-    const value = typeof mapToLayout === 'function' ? mapToLayout : () => mapToLayout;
+const toFunction = (fn) => typeof fn === 'function' ? fn : () => fn;
 
-    Object.defineProperty(Component, layoutSymbol, { value });
+const getInitialLayoutTreeSymbol = Symbol('getInitialLayoutTreeSymbol');
 
-    return Component;
-};
+const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) => {
+    const shouldInjectSetLayoutState = typeof mapLayoutStateToLayoutTree === 'function';
 
-export const getLayoutFromPage = (Component, pageProps, defaultLayout) => {
-    const layout = Component[layoutSymbol]?.(pageProps) ?? defaultLayout;
+    mapLayoutStateToLayoutTree = toFunction(mapLayoutStateToLayoutTree);
+    mapPropsToInitialLayoutState = toFunction(mapPropsToInitialLayoutState);
 
-    return {
-        Layout: layout?.type,
-        layoutProps: layout?.props,
+    return (Component) => {
+        const WithLayout = forwardRef((props, ref) => {
+            const initialLayoutStateRef = useRef();
+
+            if (!initialLayoutStateRef.current) {
+                initialLayoutStateRef.current = mapPropsToInitialLayoutState(props);
+            }
+
+            const { updateLayoutTree } = useContext(LayoutContext);
+            const [layoutState, setLayoutState] = useObjectState(initialLayoutStateRef.current);
+
+            useEffect(() => {
+                if (layoutState !== initialLayoutStateRef.current) {
+                    updateLayoutTree(mapLayoutStateToLayoutTree(layoutState));
+                }
+            }, [layoutState, updateLayoutTree]);
+
+            return useMemo(() => (
+                <Component
+                    ref={ ref }
+                    { ...(shouldInjectSetLayoutState ? { setLayoutState } : {}) }
+                    { ...props } />
+            ), [ref, setLayoutState, props]);
+        });
+
+        const getInitialLayoutTree = (props) => {
+            const layoutState = mapPropsToInitialLayoutState(props);
+
+            return mapLayoutStateToLayoutTree(layoutState);
+        };
+
+        Object.defineProperty(WithLayout, getInitialLayoutTreeSymbol, { value: getInitialLayoutTree });
+
+        WithLayout.displayName = `WithLayout(${Component.displayName || Component.name || 'Component'})`;
+        hoistNonReactStatics(WithLayout, Component);
+
+        return WithLayout;
     };
 };
 
-export const shouldInjectSetLayoutProp = (Component) => !!Component[layoutSymbol];
+export const getInitialLayoutTree = (Component, pageProps) => Component[getInitialLayoutTreeSymbol]?.(pageProps);
 
 export default withLayout;

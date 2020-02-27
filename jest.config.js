@@ -1,7 +1,6 @@
-const { compose, baseConfig, withRTL } = require('@moxy/jest-config');
+const { compose, baseConfig, withEnzyme } = require('@moxy/jest-config');
 
 module.exports = compose([
     baseConfig,
-    withRTL,
+    withEnzyme('enzyme-adapter-react-16'),
 ]);
-

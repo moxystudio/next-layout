@@ -14,7 +14,7 @@
 [david-dm-dev-url]:https://david-dm.org/moxystudio/next-layout?type=dev
 [david-dm-dev-image]:https://img.shields.io/david/dev/moxystudio/next-layout.svg
 
-Add persistent layouts to your Next.js projects in a declarative way.
+Add persistent and nested layouts to your Next.js projects in a declarative way.
 
 ## Installation
 
@@ -26,7 +26,9 @@ This library is written in modern JavaScript and is published in both CommonJS a
 
 ## Motivation
 
-Next.js projects usually have the need to have one or more layouts. Layouts are the "shell" of your app and usually contain navigation elements, such as an header and a footer. In the ideal scenario, each page would be able to say which layout they want to use, including tweaking its properties dynamically, such as `variant="light"`. However, we also want to keep the layout persistent in the React tree, to avoid having to remount it every time a user navigate between pages.
+Next.js projects usually have the need to have one or more layouts. Layouts are the "shell" of your app and usually contain navigation elements, such as an header and a footer. In more complex projects, you might also need to have nested layouts which are often associated with nested routes.
+
+In the ideal scenario, each page would be able to say which layout they want to use, including tweaking its properties dynamically, such as `variant="light"`. However, we also want to keep the layout persistent in the React tree, to avoid having to remount it every time a user navigate between pages.
 
 Historically, projects overlook the need of multiple layouts or the ability to change layout props between pages. They start off with a simple layout and only later they handle this need, often with poor and non-scalable solutions.
 
@@ -34,14 +36,14 @@ This library solves the need for multi-layouts and changing layout props dynamic
 
 ## Usage
 
-Setup `<LayoutManager>` in your `pages/_app.js` component:
+Setup `<LayoutTree>` in your `pages/_app.js` component:
 
 ```js
 import React from 'react';
-import { LayoutManager } from '@moxy/next-layout';
+import { LayoutTree } from '@moxy/next-layout';
 
 const App = ({ Component, pageProps }) => (
-    <LayoutManager
+    <LayoutTree
         Component={ Component }
         pageProps={ pageProps } />
 );
@@ -66,15 +68,65 @@ const About = () => (
 export default withLayout(<PrimaryLayout variant="light" />)(About);
 ```
 
-ℹ️ Layouts will receive the page to be rendered as the `children` prop.
+ℹ️ The `PrimaryLayout` component will receive the page to be rendered as the `children` prop.
+
+### Nested layouts
+
+Nested layouts are as easy as nesting them in the `withLayout`. Let's say that you have two account pages, `pages/account/profile.js` and `pages/account/settings.js`, and you want them to be wrapped by an `AccountLayout`. You would define the pages like so:
+
+```js
+// pages/account/profile.js
+import React from 'react';
+import { withLayout } from '@moxy/next-layout';
+import { PrimaryLayout, AccountLayout } from '../components';
+import styles from './.account-profile.module.css';
+
+const AccountProfile = () => (
+    <div className={ styles.accountProfile }>
+        <h1>Account Profile</h1>
+    </div>
+);
+
+export default withLayout(
+    <PrimaryLayout>
+        <AccountLayout />
+    <PrimaryLayout />
+)(AccountProfile);
+```
+
+```js
+// pages/account/settings.js
+import React from 'react';
+import { withLayout } from '@moxy/next-layout';
+import { PrimaryLayout, AccountLayout } from '../components';
+import styles from './account-settings.module.css';
+
+const AccountSettings = () => (
+    <div className={ styles.accountSettings }>
+        <h1>Account Settings</h1>
+    </div>
+);
+
+export default withLayout(
+    <PrimaryLayout>
+        <AccountLayout />
+    <PrimaryLayout />
+)(AccountSettings);
+```
+
+ℹ️ The `PrimaryLayout` component will receive `AccountLayout` as a children, which in turn will receive the page as children too.
+
+ℹ️ You could create a `withAccountLayout` HOC to avoid repeating the layout tree in every account page.
+
+⚠️ The layout tree specified in `withLayout` must be a unary tree, that is, a tree where nodes just have one child.
 
 ## API
 
-`@moxy/next-layout` exposes a `<LayoutManager>` component and a `withLayout` to be used in pages.
+`@moxy/next-layout` exposes a `<LayoutTree>` component and a `withLayout` HOC to be used in pages.
 
-### &lt;LayoutManager&gt;
+### &lt;LayoutTree&gt;
 
-A component that manages the current layout to be used based on what the active page specifies. It keeps the layout persistent between page transitions whenever possible (e.g.: when the layout is the same).
+A component that infers the layout tree based on what the active page specifies. It keeps the layout persistent between page transitions whenever possible (e.g.: when the layout is the same).
 
 Here's the list of props it supports:
 
@@ -94,16 +146,16 @@ The page component props, which maps to your App `pageProps` prop.
 
 Type: `ReactElement`   
 
-The default layout to be used when a child page doesn't explicitly sets one.
+The default layout tree to be used when a child page doesn't explicitly sets one.
 
 ```js
 // pages/_app.js
 import React from 'react';
-import { LayoutManager } from '@moxy/next-layout';
+import { LayoutTree } from '@moxy/next-layout';
 import { PrimaryLayout } from '../components';
 
 const App = ({ Component, pageProps }) => (
-    <LayoutManager
+    <LayoutTree
         Component={ Component }
         pageProps={ pageProps }
         defaultLayout={ <PrimaryLayout /> } />
@@ -116,59 +168,41 @@ export default App;
 
 Type: `function`
 
-A [render prop](https://reactjs.org/docs/render-props.html) to override the default render behavior.
+A [render prop](https://reactjs.org/docs/render-props.html) to override the default render behavior, which just regularly renders the tree.
 
-Its signature is `({ Layout, layoutProps, layoutKey, Component, pageProps, pageKey }) => <ReactElement>`, where:
+Its signature is `(tree) => <ReactElement>`, where: `tree` is the React's tree composed by layout elements and a leaf page element.
 
-- `Layout` is the layout React component that should be rendered
-- `layoutProps` is the props that should be passed to the layout React component
-- `layoutKey` is a unique string for the layout to be used as `key`
-- `Component` is the page React component that should be rendered
-- `pageProps` is the props that should be passed to the page React component, and already includes `setLayoutProps` if the page was wrapped with [`withLayout`](#withlayoutlayoutpage)
-- `pageKey` is a unique string for the page to be used as `key`
+This might be useful if you want to add animations between page transitions.
 
-Passing a custom `children` render prop is useful to add layout and page transitions. Here's an example that uses [`react-transition-group`](https://reactcommunity.org/react-transition-group/) to apply a simple fade transition between layouts and pages:
+### withLayout(mapLayoutStateToLayoutTree?, initialLayoutState?)(Page)
 
-```js
-// pages/_app.js
-import React from 'react';
-import { LayoutManager } from '@moxy/next-layout';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { PrimaryLayout } from '../components';
+Sets up a `Page` component with the ability to specify which layout tree to use. Moreover, it injects a `setLayoutState` prop so that you may dynamically update the layout tree.
 
-const App = ({ Component, pageProps }) => (
-    <LayoutManager
-        Component={ Component }
-        pageProps={ pageProps }
-        defaultLayout={ <PrimaryLayout /> }>
-        { ({ Layout, layoutProps, layoutKey, Component, pageProps, pageKey }) => (
-            <TransitionGroup>
-                <CSSTransition key={ layoutKey } classNames="fade">
-                    <Layout { ...layoutProps }>
-                        <TransitionGroup>
-                            <CSSTransition key={ pageKey } classNames="fade">
-                                <Component { ...pageProps } />
-                            </CSSTransition>
-                        </TransitionGroup>
-                    </Layout>
-                </CSSTransition>
-            </TransitionGroup>
-        ) }
-    </LayoutManager>
-);
-```
-
-### withLayout(layout?)(Page)
-
-Sets up a `Page` component with the ability to select which `layout` to use. Moreover, it injects a `setLayoutProps` prop so that you may dynamically update the layout props.
-
-#### layout
+#### mapLayoutStateToLayoutTree
 
 Type: `ReactElement` or `function`
 
-The layout to use for the `Page`. Can either be a `ReactElement` or a function that returns it.
+In simple cases, you may define a "static" layout tree, like so:
 
-The function form is useful when page props affects layout props. It has the following signature: `(ownProps) => <ReactElement>`. Please note that the function only runs once to determine the layout and its initial props.
+```js
+export default withLayout(<PrimaryLayout variant="light" />)(Home);
+```
+
+However, you might have external props, component state or other mutations influencing the layout tree. In those cases, you may pass a function that maps **layout state** into a tree, with the following signature: `(layoutState) => <ReactElement>`. Here's an example:
+
+```js
+const mapLayoutStateToLayoutTree = ({ variant }) => <PrimaryLayout variant={ variant } />;
+
+export default withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(Home);
+```
+
+The function is run initially and every time the *layout state* changes.
+
+#### initialLayoutState
+
+Type: `object` or `function`
+
+The initial **layout state** to be passed to `mapLayoutStateToLayoutTree`. If your initial *layout state* depends on the props you receive, you may pass a function with the following signature: `(props) => <object>`.
 
 #### Page
 
@@ -176,13 +210,13 @@ Type: `ReactElementType`
 
 The page component to wrap.
 
-#### Injected setLayoutProps
+#### Injected setLayoutState
 
 Type: `function`
 
-Allows to dynamically change the layout props. Has the following signature: `(updater | stateChange, callback?)`.
+Allows dynamic changes to the layout state. Has the following signature: `(newState | updater?)`.
 
-The behavior of `setLayoutProps` is exactly the same as [`setState`](https://reactjs.org/docs/react-component.html#setstate) of class components, supporting both an object or an updater function.
+The behavior of `setLayoutState` is exactly the same as [`setState`](https://reactjs.org/docs/react-component.html#setstate) of class components: it merges properties and it supports both an object or an updater function.
 
 ```js
 // pages/about.js
@@ -192,11 +226,11 @@ import { PrimaryLayout } from '../components';
 
 import styles from './about.module.css';
 
-const About = ({ setLayoutProps }) => {
+const About = ({ setLayoutState }) => {
     const handleSetToDark = useCallback(() => {
-        setLayoutProps({ variant="dark" });
-        // ..or setLayoutProps((layoutProps) => ({ variant="dark" }));
-    }, [setLayoutProps]);
+        setLayoutState({ variant: 'dark' });
+        // ..or setLayoutState((layoutState) => ({ variant: 'dark' }));
+    }, [setLayoutState]);
 
     return (
         <div className={ styles.about }>
@@ -206,7 +240,9 @@ const About = ({ setLayoutProps }) => {
     );
 };
 
-export default withLayout(<PrimaryLayout variant="light" />)(About);
+const mapLayoutStateToLayoutTree = ({ variant }) => <PrimaryLayout variant={ variant } />;
+
+export default withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(About);
 ```
 
 ## Tests
