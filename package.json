@@ -1,6 +1,6 @@
 {
   "name": "@moxy/next-layout",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Add persistent layouts to your Next.js projects in a declarative way",
   "main": "lib/index.js",
   "module": "es/index.js",
