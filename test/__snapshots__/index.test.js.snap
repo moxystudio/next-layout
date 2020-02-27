@@ -1,0 +1,317 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should allow passing a custom render prop to LayoutTree 1`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Home)",
+      "render": [Function],
+    }
+  }
+  pageProps={
+    Object {
+      "foo": "bar",
+    }
+  }
+>
+  <PrimaryLayout>
+    <main>
+      <WithLayout(Home)
+        foo="bar"
+      >
+        <Home
+          foo="bar"
+        >
+          <h1>
+            Home
+          </h1>
+        </Home>
+      </WithLayout(Home)>
+    </main>
+  </PrimaryLayout>
+</LayoutTree>
+`;
+
+exports[`should allow passing a custom render prop to LayoutTree 2`] = `
+<PrimaryLayout>
+  <WithLayout(Home)
+    foo="bar"
+  />
+</PrimaryLayout>
+`;
+
+exports[`should render a layout tree correctly based the initial layout state (function) 1`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Home)",
+      "render": [Function],
+    }
+  }
+  pageProps={
+    Object {
+      "light": true,
+    }
+  }
+>
+  <PrimaryLayout
+    variant="light"
+  >
+    <main>
+      <WithLayout(Home)
+        light={true}
+      >
+        <Home
+          light={true}
+          setLayoutState={[Function]}
+        >
+          <h1>
+            Home
+          </h1>
+        </Home>
+      </WithLayout(Home)>
+    </main>
+  </PrimaryLayout>
+</LayoutTree>
+`;
+
+exports[`should render a layout tree correctly based the initial layout state 1`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Home)",
+      "render": [Function],
+    }
+  }
+>
+  <PrimaryLayout
+    variant="light"
+  >
+    <main>
+      <WithLayout(Home)>
+        <Home
+          setLayoutState={[Function]}
+        >
+          <h1>
+            Home
+          </h1>
+        </Home>
+      </WithLayout(Home)>
+    </main>
+  </PrimaryLayout>
+</LayoutTree>
+`;
+
+exports[`should render a one level deep layout tree correctly 1`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Home)",
+      "render": [Function],
+    }
+  }
+  pageProps={
+    Object {
+      "foo": "bar",
+    }
+  }
+>
+  <PrimaryLayout>
+    <main>
+      <WithLayout(Home)
+        foo="bar"
+      >
+        <Home
+          foo="bar"
+        >
+          <h1>
+            Home
+          </h1>
+        </Home>
+      </WithLayout(Home)>
+    </main>
+  </PrimaryLayout>
+</LayoutTree>
+`;
+
+exports[`should render a two level deep layout tree correctly 1`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Home)",
+      "render": [Function],
+    }
+  }
+  pageProps={
+    Object {
+      "foo": "bar",
+    }
+  }
+>
+  <PrimaryLayout>
+    <main>
+      <AccountLayout>
+        <div>
+          <WithLayout(Home)
+            foo="bar"
+          >
+            <Home
+              foo="bar"
+            >
+              <h1>
+                Home
+              </h1>
+            </Home>
+          </WithLayout(Home)>
+        </div>
+      </AccountLayout>
+    </main>
+  </PrimaryLayout>
+</LayoutTree>
+`;
+
+exports[`should render default layout 1`] = `
+<LayoutTree
+  Component={[Function]}
+  defaultLayout={<PrimaryLayout />}
+  pageProps={
+    Object {
+      "foo": "bar",
+    }
+  }
+>
+  <PrimaryLayout>
+    <main>
+      <Home
+        foo="bar"
+      >
+        <h1>
+          Home
+        </h1>
+      </Home>
+    </main>
+  </PrimaryLayout>
+</LayoutTree>
+`;
+
+exports[`should render no layout 1`] = `
+<LayoutTree
+  Component={[Function]}
+  pageProps={
+    Object {
+      "foo": "bar",
+    }
+  }
+/>
+`;
+
+exports[`should update the layout tree correctly if setLayoutState is called (function) 1`] = `
+<LayoutTree
+  Component={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "setLayoutState": [Function],
+          },
+          Object {},
+        ],
+        Array [
+          Object {
+            "setLayoutState": [Function],
+          },
+          Object {},
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": <h1>
+            Home
+          </h1>,
+        },
+        Object {
+          "type": "return",
+          "value": <h1>
+            Home
+          </h1>,
+        },
+      ],
+    }
+  }
+>
+  <mockConstructor
+    variant="dark"
+  >
+    <main>
+      <WithLayout(mockConstructor)>
+        <mockConstructor
+          setLayoutState={[Function]}
+        >
+          <h1>
+            Home
+          </h1>
+        </mockConstructor>
+      </WithLayout(mockConstructor)>
+    </main>
+  </mockConstructor>
+</LayoutTree>
+`;
+
+exports[`should update the layout tree correctly if setLayoutState is called 1`] = `
+<LayoutTree
+  Component={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "setLayoutState": [Function],
+          },
+          Object {},
+        ],
+        Array [
+          Object {
+            "setLayoutState": [Function],
+          },
+          Object {},
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": <h1>
+            Home
+          </h1>,
+        },
+        Object {
+          "type": "return",
+          "value": <h1>
+            Home
+          </h1>,
+        },
+      ],
+    }
+  }
+>
+  <mockConstructor
+    variant="light"
+  >
+    <main>
+      <WithLayout(mockConstructor)>
+        <mockConstructor
+          setLayoutState={[Function]}
+        >
+          <h1>
+            Home
+          </h1>
+        </mockConstructor>
+      </WithLayout(mockConstructor)>
+    </main>
+  </mockConstructor>
+</LayoutTree>
+`;
