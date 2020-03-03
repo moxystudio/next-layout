@@ -21,7 +21,13 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
                 initialLayoutStateRef.current = mapPropsToInitialLayoutState(props);
             }
 
-            const { updateLayoutTree } = useContext(LayoutContext);
+            const layoutProviderValue = useContext(LayoutContext);
+
+            if (process.env.NODE_ENV !== 'production' && !layoutProviderValue) {
+                throw new Error('It seems you forgot to include <LayoutTree /> in your app');
+            }
+
+            const { updateLayoutTree } = layoutProviderValue;
             const [layoutState, setLayoutState] = useObjectState(initialLayoutStateRef.current);
 
             useEffect(() => {

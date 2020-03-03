@@ -206,3 +206,15 @@ it('should allow passing a custom render prop to LayoutTree', () => {
     expect(render).toHaveBeenCalledTimes(1);
     expect(render.mock.results[0].value).toMatchSnapshot();
 });
+
+it('should fail if LayoutTree was not rendered', () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const EnhancedHome = withLayout(<PrimaryLayout />)(Home);
+
+    expect(() => {
+        mount(
+            <EnhancedHome />,
+        );
+    }).toThrow(/it seems you forgot to include/i);
+});
