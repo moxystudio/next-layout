@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/moxystudio/next-layout/compare/v2.0.0...v2.1.0) (2020-03-03)
+
+
+### Features
+
+* better error when no layout tree was found ([604ac30](https://github.com/moxystudio/next-layout/commit/604ac3044946e49b7cb11b46c514f396479861ff))
+
 ## [2.0.0](https://github.com/moxystudio/next-layout/compare/v1.0.0...v2.0.0) (2020-02-27)
 
 
