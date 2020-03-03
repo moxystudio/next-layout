@@ -207,7 +207,15 @@ exports[`should render no layout 1`] = `
       "foo": "bar",
     }
   }
-/>
+>
+  <Home
+    foo="bar"
+  >
+    <h1>
+      Home
+    </h1>
+  </Home>
+</LayoutTree>
 `;
 
 exports[`should update the layout tree correctly if setLayoutState is called (function) 1`] = `
