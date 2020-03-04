@@ -7,7 +7,7 @@ const validateLayoutTree = (node) => {
     }
 
     if (!isValidElement(node)) {
-        throw new TypeError('Only unary trees composed by react elements are supported in withLayout');
+        throw new TypeError('Only unary trees composed by react elements are supported as layouts');
     }
 
     if (node.props.children) {
