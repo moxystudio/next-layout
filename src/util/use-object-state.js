@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
-const createSetObjectState = (setState) => (updater) => {
-    updater = typeof updater === 'function' ? updater : () => updater;
+const createSetObjectState = (setState) => (newState) => {
+    const updater = typeof newState === 'function' ? newState : () => newState;
 
     return setState((state) => ({
         ...state,

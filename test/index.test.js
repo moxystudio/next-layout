@@ -121,17 +121,18 @@ it('should update the layout tree correctly if setLayoutState is called', async 
 
     const EnhancedHomeMock = withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(HomeMock);
 
-    const wrapper = mount(<LayoutTree Component={ EnhancedHomeMock } />);
+    mount(<LayoutTree Component={ EnhancedHomeMock } />);
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    expect(wrapper).toMatchSnapshot();
     expect(PrimaryLayoutMock).toHaveBeenCalledTimes(2);
+    expect(PrimaryLayoutMock).toHaveBeenNthCalledWith(1, { children: expect.anything(), variant: 'light' }, {});
+    expect(PrimaryLayoutMock).toHaveBeenNthCalledWith(2, { children: expect.anything(), variant: 'dark' }, {});
     expect(HomeMock).toHaveBeenCalledTimes(2);
 });
 
 it('should update the layout tree correctly if setLayoutState is called (function)', async () => {
-    expect.assertions(4);
+    expect.assertions(5);
 
     const Home = ({ setLayoutState }) => {
         useEffect(() => {
@@ -152,12 +153,13 @@ it('should update the layout tree correctly if setLayoutState is called (functio
 
     const EnhancedHomeMock = withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(HomeMock);
 
-    const wrapper = mount(<LayoutTree Component={ EnhancedHomeMock } />);
+    mount(<LayoutTree Component={ EnhancedHomeMock } />);
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    expect(wrapper).toMatchSnapshot();
     expect(PrimaryLayoutMock).toHaveBeenCalledTimes(2);
+    expect(PrimaryLayoutMock).toHaveBeenNthCalledWith(1, { children: expect.anything(), variant: 'light' }, {});
+    expect(PrimaryLayoutMock).toHaveBeenNthCalledWith(2, { children: expect.anything(), variant: 'dark' }, {});
     expect(HomeMock).toHaveBeenCalledTimes(2);
 });
 
