@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/moxystudio/next-layout/compare/v2.1.0...v2.1.2) (2020-03-10)
+
+
+### Bug Fixes
+
+* fix setLayoutState not working correctly ([7758727](https://github.com/moxystudio/next-layout/commit/775872704dda832a49e83bd16a4cc8a7746b2a46))
+* page not rendered correctly when there's no layout ([65ef45d](https://github.com/moxystudio/next-layout/commit/65ef45d49d443b2b73cfdd733b4f9dcb7410e050))
+
 ### [2.1.1](https://github.com/moxystudio/next-layout/compare/v2.1.0...v2.1.1) (2020-03-03)
 
 
