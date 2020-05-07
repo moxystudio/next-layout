@@ -8,13 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['12', '13']
-    name: "[v${{ matrix.node }}] prepare"
+        node-version: ['12', '14']
+    name: "[v${{ matrix.node-version }}] prepare"
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
 
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+  
     - name: Install dependencies
       run: |
         npm ci
