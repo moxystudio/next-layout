@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         node-version: ['12', '14']
-    name: "[v${{ matrix.node-version }}] prepare"
+    name: "[v${{ matrix.node-version }}] check"
 
     steps:
     - name: Checkout code
