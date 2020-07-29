@@ -6,7 +6,10 @@
   "module": "es/index.js",
   "files": [
     "lib",
-    "es"
+    "es",
+    "!**/*.test.js",
+    "!**/__snapshots__",
+    "!**/__mocks__"
   ],
   "homepage": "https://github.com/moxystudio/next-layout#readme",
   "author": "André Cruz <andre@moxy.studio>",
