@@ -220,3 +220,25 @@ it('should fail if LayoutTree was not rendered', () => {
         );
     }).toThrow(/it seems you forgot to include/i);
 });
+
+it('should fail if two pages were found inside LayoutTree', () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const EnhancedHome = withLayout(<PrimaryLayout />)(Home);
+    const AnotherEnhancedHome = withLayout(<PrimaryLayout />)(Home);
+
+    const render = jest.fn((tree) => (
+        <>
+            { tree }
+            { <AnotherEnhancedHome /> }
+        </>
+    ));
+
+    expect(() => {
+        mount(
+            <LayoutTree Component={ EnhancedHome }>
+                { render }
+            </LayoutTree>,
+        );
+    }).toThrow(/you are rendering a page component inside/i);
+});

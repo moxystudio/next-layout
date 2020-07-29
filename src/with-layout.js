@@ -23,11 +23,19 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
 
             const layoutProviderValue = useContext(LayoutContext);
 
+            // Check if <LayoutTree /> was not added to the app (missing provider).
             if (process.env.NODE_ENV !== 'production' && !layoutProviderValue) {
                 throw new Error('It seems you forgot to include <LayoutTree /> in your app');
             }
 
-            const { updateLayoutTree } = layoutProviderValue;
+            const { updateLayoutTree, Component: ProviderComponent } = layoutProviderValue;
+
+            // Check for a edge case where a page is being added to the tree,
+            // which does not match the `Component` used in the <LayoutTree />.
+            if (process.env.NODE_ENV !== 'production' && ProviderComponent !== WithLayout) {
+                throw new Error('You are rendering a page component inside <LayoutTree /> that is not the current Component');
+            }
+
             const [layoutState, setLayoutState] = useObjectState(initialLayoutStateRef.current);
 
             useEffect(() => {
