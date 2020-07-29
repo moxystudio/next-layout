@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import memoizeOne from 'memoize-one';
 import LayoutContext from './util/context';
 import createFullTree from './util/full-tree';
 import { getInitialLayoutTree } from './with-layout';
@@ -32,9 +33,10 @@ export default class LayoutTree extends PureComponent {
 
     state = {};
 
-    providerValue = {
+    getProviderValue = memoizeOne((Component) => ({
+        Component,
         updateLayoutTree: (layoutTree) => this.setState({ layoutTree }),
-    };
+    }));
 
     render() {
         const { defaultLayout, Component, pageProps, children: render } = this.props;
@@ -42,9 +44,10 @@ export default class LayoutTree extends PureComponent {
 
         const page = <Component { ...pageProps } />;
         const fullTree = createFullTree(layoutTree ?? defaultLayout, page);
+        const providerValue = this.getProviderValue(Component);
 
         return (
-            <LayoutProvider value={ this.providerValue }>
+            <LayoutProvider value={ providerValue }>
                 { render(fullTree) }
             </LayoutProvider>
         );

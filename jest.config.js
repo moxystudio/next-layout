@@ -1,6 +1,11 @@
-const { compose, baseConfig, withEnzyme } = require('@moxy/jest-config');
+'use strict';
 
-module.exports = compose([
-    baseConfig,
-    withEnzyme('enzyme-adapter-react-16'),
-]);
+const { compose, baseConfig } = require('@moxy/jest-config-base');
+const withWeb = require('@moxy/jest-config-web');
+const { withEnzymeWeb } = require('@moxy/jest-config-enzyme');
+
+module.exports = compose(
+    baseConfig(),
+    withWeb(),
+    withEnzymeWeb('enzyme-adapter-react-16'), // ⚠️ Always after .withWeb
+);
