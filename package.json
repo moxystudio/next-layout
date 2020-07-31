@@ -1,6 +1,6 @@
 {
   "name": "@moxy/next-layout",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Add persistent and nested layouts to your Next.js projects in a declarative way",
   "main": "lib/index.js",
   "module": "es/index.js",

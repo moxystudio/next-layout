@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/moxystudio/next-layout/compare/v2.1.2...v2.1.3) (2020-07-31)
+
+
+### Bug Fixes
+
+* detect if a page is being wrongly used inside the tree ([#4](https://github.com/moxystudio/next-layout/issues/4)) ([8ecab66](https://github.com/moxystudio/next-layout/commit/8ecab66b021db687ceca437fda750d7ac1b9298a))
+
 ### [2.1.2](https://github.com/moxystudio/next-layout/compare/v2.1.0...v2.1.2) (2020-03-10)
 
 
