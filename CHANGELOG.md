@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/moxystudio/next-layout/compare/v2.1.3...v2.1.4) (2020-08-15)
+
+
+### Bug Fixes
+
+* remove check due to false positive with fast-refresh ([06de614](https://github.com/moxystudio/next-layout/commit/06de61457f2c8a1376a80ee8458a5512ee0a28d7))
+
 ### [2.1.3](https://github.com/moxystudio/next-layout/compare/v2.1.2...v2.1.3) (2020-07-31)
 
 
