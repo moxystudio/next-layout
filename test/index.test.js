@@ -3,6 +3,7 @@ import { mount } from 'enzyme';
 import { withLayout, LayoutTree } from '../src';
 
 const PrimaryLayout = ({ children }) => <main>{ children }</main>;
+const SecondaryLayout = ({ children }) => <main>{ children }</main>;
 const Home = () => <h1>Home</h1>;
 
 afterEach(() => {
@@ -219,4 +220,26 @@ it('should fail if LayoutTree was not rendered', () => {
             <EnhancedHome />,
         );
     }).toThrow(/it seems you forgot to include/i);
+});
+
+it('should not update layout if page is not the active Component of LayoutTree', () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const EnhancedHome = withLayout(<PrimaryLayout />)(Home);
+    const AnotherEnhancedHome = withLayout(<SecondaryLayout />)(Home);
+
+    const render = jest.fn((tree) => (
+        <>
+            { tree }
+            { <AnotherEnhancedHome /> }
+        </>
+    ));
+
+    const wrapper = mount(
+        <LayoutTree Component={ EnhancedHome }>
+            { render }
+        </LayoutTree>,
+    );
+
+    expect(wrapper).toMatchSnapshot();
 });

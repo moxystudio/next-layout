@@ -33,9 +33,12 @@ export default class LayoutTree extends PureComponent {
 
     state = {};
 
+    // eslint-disable-next-line react/sort-comp
+    updateLayoutTree = (layoutTree) => this.setState({ layoutTree });
+
     getProviderValue = memoizeOne((Component) => ({
         Component,
-        updateLayoutTree: (layoutTree) => this.setState({ layoutTree }),
+        updateLayoutTree: this.updateLayoutTree,
     }));
 
     render() {

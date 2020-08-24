@@ -41,6 +41,37 @@ exports[`should allow passing a custom render prop to LayoutTree 2`] = `
 </PrimaryLayout>
 `;
 
+exports[`should not update layout if page is not the active Component of LayoutTree 1`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Home)",
+      "render": [Function],
+    }
+  }
+>
+  <PrimaryLayout>
+    <main>
+      <WithLayout(Home)>
+        <Home>
+          <h1>
+            Home
+          </h1>
+        </Home>
+      </WithLayout(Home)>
+    </main>
+  </PrimaryLayout>
+  <WithLayout(Home)>
+    <Home>
+      <h1>
+        Home
+      </h1>
+    </Home>
+  </WithLayout(Home)>
+</LayoutTree>
+`;
+
 exports[`should render a layout tree correctly based the initial layout state (function) 1`] = `
 <LayoutTree
   Component={

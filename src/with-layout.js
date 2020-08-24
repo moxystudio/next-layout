@@ -28,14 +28,14 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
                 throw new Error('It seems you forgot to include <LayoutTree /> in your app');
             }
 
-            const { updateLayoutTree } = layoutProviderValue;
+            const { updateLayoutTree, Component: ProviderComponent } = layoutProviderValue;
             const [layoutState, setLayoutState] = useObjectState(initialLayoutStateRef.current);
 
             useEffect(() => {
                 if (layoutState !== initialLayoutStateRef.current) {
                     updateLayoutTree(mapLayoutStateToLayoutTree(layoutState));
                 }
-            }, [layoutState, updateLayoutTree]);
+            }, [layoutState, updateLayoutTree, ProviderComponent]);
 
             return useMemo(() => (
                 <Component
