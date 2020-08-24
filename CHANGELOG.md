@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/moxystudio/next-layout/compare/v2.1.6...v2.2.0) (2020-08-24)
+
+
+### Features
+
+* add pageKey ([c31aace](https://github.com/moxystudio/next-layout/commit/c31aacefe56c4bfc3b3dd2f2d2ac4144fb05f807))
+
 ### [2.1.6](https://github.com/moxystudio/next-layout/compare/v2.1.5...v2.1.6) (2020-08-24)
 
 
