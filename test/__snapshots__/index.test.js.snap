@@ -41,7 +41,51 @@ exports[`should allow passing a custom render prop to LayoutTree 2`] = `
 </PrimaryLayout>
 `;
 
-exports[`should not update layout if page is not the active Component of LayoutTree 1`] = `
+exports[`should ignore setLayoutState calls if Component's pageKey is not the active pageKey of LayoutTree 1`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Foo)",
+      "render": [Function],
+    }
+  }
+  pageKey="foo"
+>
+  <PrimaryLayout
+    variant="light"
+  >
+    <main>
+      <WithLayout(Foo)
+        key="foo"
+        pageKey="foo"
+      >
+        <Foo
+          setLayoutState={[Function]}
+        >
+          <h1>
+            Foo
+          </h1>
+        </Foo>
+      </WithLayout(Foo)>
+    </main>
+  </PrimaryLayout>
+  <WithLayout(Foo)
+    foo={true}
+  >
+    <Foo
+      foo={true}
+      setLayoutState={[Function]}
+    >
+      <h1>
+        Foo
+      </h1>
+    </Foo>
+  </WithLayout(Foo)>
+</LayoutTree>
+`;
+
+exports[`should ignore setLayoutState calls if page is not the active Component of LayoutTree 1`] = `
 <LayoutTree
   Component={
     Object {
@@ -51,10 +95,14 @@ exports[`should not update layout if page is not the active Component of LayoutT
     }
   }
 >
-  <PrimaryLayout>
+  <PrimaryLayout
+    variant="light"
+  >
     <main>
       <WithLayout(Home)>
-        <Home>
+        <Home
+          setLayoutState={[Function]}
+        >
           <h1>
             Home
           </h1>
@@ -67,7 +115,7 @@ exports[`should not update layout if page is not the active Component of LayoutT
       setLayoutState={[Function]}
     >
       <h1>
-        Home
+        Foo
       </h1>
     </Foo>
   </WithLayout(Foo)>
@@ -248,5 +296,121 @@ exports[`should render no layout 1`] = `
       Home
     </h1>
   </Home>
+</LayoutTree>
+`;
+
+exports[`should update the layout tree correctly if Component changes 1`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Home)",
+      "render": [Function],
+    }
+  }
+>
+  <PrimaryLayout
+    variant="light"
+  >
+    <main>
+      <WithLayout(Home)>
+        <Home>
+          <h1>
+            Home
+          </h1>
+        </Home>
+      </WithLayout(Home)>
+    </main>
+  </PrimaryLayout>
+</LayoutTree>
+`;
+
+exports[`should update the layout tree correctly if Component changes 2`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Foo)",
+      "render": [Function],
+    }
+  }
+>
+  <PrimaryLayout
+    variant="dark"
+  >
+    <main>
+      <WithLayout(Foo)>
+        <Foo>
+          <h1>
+            Foo
+          </h1>
+        </Foo>
+      </WithLayout(Foo)>
+    </main>
+  </PrimaryLayout>
+</LayoutTree>
+`;
+
+exports[`should update the layout tree correctly if pageKey changes 1`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Home)",
+      "render": [Function],
+    }
+  }
+  pageKey="foo"
+>
+  <PrimaryLayout
+    variant="dark"
+  >
+    <main>
+      <WithLayout(Home)
+        key="foo"
+        pageKey="foo"
+      >
+        <Home
+          setLayoutState={[Function]}
+        >
+          <h1>
+            Home
+          </h1>
+        </Home>
+      </WithLayout(Home)>
+    </main>
+  </PrimaryLayout>
+</LayoutTree>
+`;
+
+exports[`should update the layout tree correctly if pageKey changes 2`] = `
+<LayoutTree
+  Component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "WithLayout(Home)",
+      "render": [Function],
+    }
+  }
+  pageKey="bar"
+>
+  <PrimaryLayout
+    variant="light"
+  >
+    <main>
+      <WithLayout(Home)
+        key="bar"
+        pageKey="bar"
+      >
+        <Home
+          setLayoutState={[Function]}
+        >
+          <h1>
+            Home
+          </h1>
+        </Home>
+      </WithLayout(Home)>
+    </main>
+  </PrimaryLayout>
 </LayoutTree>
 `;

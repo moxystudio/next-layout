@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 import { withLayout, LayoutTree } from '../src';
 
 const PrimaryLayout = ({ children }) => <main>{ children }</main>;
-const SecondaryLayout = ({ children }) => <main>{ children }</main>;
 const Home = () => <h1>Home</h1>;
 
 afterEach(() => {
@@ -77,7 +76,6 @@ it('should call layout\'s and page\'s render just once', () => {
 
 it('should render a layout tree correctly based the initial layout state', () => {
     const mapLayoutStateToLayoutTree = jest.fn(({ variant }) => <PrimaryLayout variant={ variant } />);
-
     const EnhancedHome = withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(Home);
 
     const wrapper = mount(<LayoutTree Component={ EnhancedHome } />);
@@ -106,7 +104,7 @@ it('should render a layout tree correctly based the initial layout state (functi
     expect(mapPropsToInitialLayoutState).toHaveBeenLastCalledWith({ light: true });
 });
 
-it('should update the layout tree correctly if setLayoutState is called', async () => {
+it('should update the layout tree correctly if setLayoutState is called', () => {
     const Home = ({ setLayoutState }) => {
         useEffect(() => {
             setLayoutState({ variant: 'dark' });
@@ -119,12 +117,9 @@ it('should update the layout tree correctly if setLayoutState is called', async 
     const HomeMock = jest.fn(Home);
 
     const mapLayoutStateToLayoutTree = jest.fn(({ variant }) => <PrimaryLayoutMock variant={ variant } />);
-
     const EnhancedHomeMock = withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(HomeMock);
 
     mount(<LayoutTree Component={ EnhancedHomeMock } />);
-
-    await new Promise((resolve) => setTimeout(resolve, 50));
 
     expect(PrimaryLayoutMock).toHaveBeenCalledTimes(2);
     expect(PrimaryLayoutMock).toHaveBeenNthCalledWith(1, { children: expect.anything(), variant: 'light' }, {});
@@ -132,7 +127,47 @@ it('should update the layout tree correctly if setLayoutState is called', async 
     expect(HomeMock).toHaveBeenCalledTimes(2);
 });
 
-it('should update the layout tree correctly if setLayoutState is called (function)', async () => {
+it('should update the layout tree correctly if Component changes', () => {
+    const Foo = () => <h1>Foo</h1>;
+
+    const EnhancedHome = withLayout(<PrimaryLayout variant="light" />)(Home);
+    const EnhancedFoo = withLayout(<PrimaryLayout variant="dark" />)(Foo);
+
+    const wrapper = mount(<LayoutTree Component={ EnhancedHome } />);
+
+    expect(wrapper).toMatchSnapshot();
+
+    wrapper.setProps({ Component: EnhancedFoo });
+
+    expect(wrapper).toMatchSnapshot();
+});
+
+it('should update the layout tree correctly if pageKey changes', () => {
+    let doSetLayoutState = true;
+
+    const Home = ({ setLayoutState }) => {
+        useEffect(() => {
+            doSetLayoutState && setLayoutState({ variant: 'dark' });
+        }, [setLayoutState]);
+
+        return <h1>Home</h1>;
+    };
+
+    const mapLayoutStateToLayoutTree = jest.fn(({ variant }) => <PrimaryLayout variant={ variant } />);
+    const EnhancedHome = withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(Home);
+
+    const wrapper = mount(<LayoutTree Component={ EnhancedHome } pageKey="foo" />);
+
+    expect(wrapper).toMatchSnapshot();
+
+    doSetLayoutState = false;
+    wrapper.setProps({ pageKey: 'bar' });
+
+    expect(wrapper).toMatchSnapshot();
+    expect(mapLayoutStateToLayoutTree).toHaveBeenCalledTimes(3);
+});
+
+it('should update the layout tree correctly if setLayoutState is called (function)', () => {
     expect.assertions(5);
 
     const Home = ({ setLayoutState }) => {
@@ -151,12 +186,9 @@ it('should update the layout tree correctly if setLayoutState is called (functio
     const HomeMock = jest.fn(Home);
 
     const mapLayoutStateToLayoutTree = jest.fn(({ variant }) => <PrimaryLayoutMock variant={ variant } />);
-
     const EnhancedHomeMock = withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(HomeMock);
 
     mount(<LayoutTree Component={ EnhancedHomeMock } />);
-
-    await new Promise((resolve) => setTimeout(resolve, 50));
 
     expect(PrimaryLayoutMock).toHaveBeenCalledTimes(2);
     expect(PrimaryLayoutMock).toHaveBeenNthCalledWith(1, { children: expect.anything(), variant: 'light' }, {});
@@ -222,7 +254,7 @@ it('should fail if LayoutTree was not rendered', () => {
     }).toThrow(/it seems you forgot to include/i);
 });
 
-it('should not update layout if page is not the active Component of LayoutTree', () => {
+it('should ignore setLayoutState calls if page is not the active Component of LayoutTree', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const Foo = ({ setLayoutState }) => {
@@ -230,11 +262,12 @@ it('should not update layout if page is not the active Component of LayoutTree',
             setLayoutState({ variant: 'dark' });
         }, [setLayoutState]);
 
-        return <h1>Home</h1>;
+        return <h1>Foo</h1>;
     };
 
-    const EnhancedHome = withLayout(<PrimaryLayout />)(Home);
-    const EnhancedFoo = withLayout(() => <SecondaryLayout />)(Foo);
+    const mapLayoutStateToLayoutTree = jest.fn(({ variant }) => <PrimaryLayout variant={ variant } />);
+    const EnhancedHome = withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(Home);
+    const EnhancedFoo = withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(Foo);
 
     const render = jest.fn((tree) => (
         <>
@@ -250,4 +283,36 @@ it('should not update layout if page is not the active Component of LayoutTree',
     );
 
     expect(wrapper).toMatchSnapshot();
+    expect(mapLayoutStateToLayoutTree).toHaveBeenCalledTimes(1);
+});
+
+it('should ignore setLayoutState calls if Component\'s pageKey is not the active pageKey of LayoutTree', () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const Foo = ({ foo, setLayoutState }) => {
+        useEffect(() => {
+            foo && setLayoutState({ variant: 'dark' });
+        }, [foo, setLayoutState]);
+
+        return <h1>Foo</h1>;
+    };
+
+    const mapLayoutStateToLayoutTree = jest.fn(({ variant }) => <PrimaryLayout variant={ variant } />);
+    const EnhancedFoo = withLayout(mapLayoutStateToLayoutTree, { variant: 'light' })(Foo);
+
+    const render = jest.fn((tree) => (
+        <>
+            { tree }
+            { <EnhancedFoo foo /> }
+        </>
+    ));
+
+    const wrapper = mount(
+        <LayoutTree Component={ EnhancedFoo } pageKey="foo">
+            { render }
+        </LayoutTree>,
+    );
+
+    expect(wrapper).toMatchSnapshot();
+    expect(mapLayoutStateToLayoutTree).toHaveBeenCalledTimes(1);
 });

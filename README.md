@@ -142,6 +142,12 @@ Type: `object`
 
 The page component props, which maps to your App `pageProps` prop.
 
+#### pageKey?
+
+Type: `string`
+
+The page key used to uniquely identify this page. Useful for dynamic routes, where the `Component` is the same, but you still want the page to be re-mounted. For such cases, you may use `router.asPath.replace(/\?.+/, '')`.
+
 #### defaultLayout
 
 Type: `ReactElement`   

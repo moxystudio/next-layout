@@ -14,7 +14,13 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
     mapPropsToInitialLayoutState = toFunction(mapPropsToInitialLayoutState);
 
     return (Component) => {
-        const WithLayout = forwardRef((props, ref) => {
+        const WithLayout = forwardRef((_props, ref) => {
+            const { pageKey, props } = useMemo(() => {
+                const { pageKey, ...props } = _props;
+
+                return { pageKey, props };
+            }, [_props]);
+
             const initialLayoutStateRef = useRef();
 
             if (!initialLayoutStateRef.current) {
@@ -28,14 +34,17 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
                 throw new Error('It seems you forgot to include <LayoutTree /> in your app');
             }
 
-            const { updateLayoutTree, Component: ProviderComponent } = layoutProviderValue;
+            const { updateLayoutTree, Component: ProviderComponent, pageKey: providerPageKey } = layoutProviderValue;
             const [layoutState, setLayoutState] = useObjectState(initialLayoutStateRef.current);
 
             useEffect(() => {
-                if (layoutState !== initialLayoutStateRef.current && ProviderComponent === WithLayout) {
+                if (layoutState !== initialLayoutStateRef.current &&
+                    ProviderComponent === WithLayout &&
+                    providerPageKey === pageKey
+                ) {
                     updateLayoutTree(mapLayoutStateToLayoutTree(layoutState));
                 }
-            }, [layoutState, updateLayoutTree, ProviderComponent]);
+            }, [layoutState, updateLayoutTree, ProviderComponent, providerPageKey, pageKey]);
 
             return useMemo(() => (
                 <Component

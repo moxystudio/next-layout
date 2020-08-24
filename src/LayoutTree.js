@@ -11,6 +11,7 @@ export default class LayoutTree extends PureComponent {
     static propTypes = {
         Component: PropTypes.elementType.isRequired,
         pageProps: PropTypes.object,
+        pageKey: PropTypes.string,
         defaultLayout: PropTypes.element,
         children: PropTypes.func,
     };
@@ -20,13 +21,14 @@ export default class LayoutTree extends PureComponent {
     };
 
     static getDerivedStateFromProps(props, state) {
-        const { Component, pageProps } = props;
+        const { Component, pageProps, pageKey } = props;
 
-        const didPageChange = props.Component !== state.Component;
+        const didPageChange = Component !== state.Component || pageKey !== state.pageKey;
         const layoutTree = didPageChange ? getInitialLayoutTree(Component, pageProps) : state.layoutTree;
 
         return {
             Component,
+            pageKey,
             layoutTree,
         };
     }
@@ -36,18 +38,19 @@ export default class LayoutTree extends PureComponent {
     // eslint-disable-next-line react/sort-comp
     updateLayoutTree = (layoutTree) => this.setState({ layoutTree });
 
-    getProviderValue = memoizeOne((Component) => ({
+    getProviderValue = memoizeOne((Component, pageKey) => ({
         Component,
+        pageKey,
         updateLayoutTree: this.updateLayoutTree,
     }));
 
     render() {
-        const { defaultLayout, Component, pageProps, children: render } = this.props;
+        const { defaultLayout, Component, pageProps, pageKey, children: render } = this.props;
         const { layoutTree } = this.state;
 
-        const page = <Component { ...pageProps } />;
+        const page = <Component { ...pageProps } key={ pageKey } pageKey={ pageKey } />;
         const fullTree = createFullTree(layoutTree ?? defaultLayout, page);
-        const providerValue = this.getProviderValue(Component);
+        const providerValue = this.getProviderValue(Component, pageKey);
 
         return (
             <LayoutProvider value={ providerValue }>
