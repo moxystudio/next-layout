@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.6](https://github.com/moxystudio/next-layout/compare/v2.1.5...v2.1.6) (2020-08-24)
+
+
+### Bug Fixes
+
+* fix previous commit ([760c960](https://github.com/moxystudio/next-layout/commit/760c9609eed89451717e0c2a803cc9d59446127f))
+
 ### [2.1.5](https://github.com/moxystudio/next-layout/compare/v2.1.4...v2.1.5) (2020-08-24)
 
 
