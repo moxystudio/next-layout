@@ -32,7 +32,7 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
             const [layoutState, setLayoutState] = useObjectState(initialLayoutStateRef.current);
 
             useEffect(() => {
-                if (layoutState !== initialLayoutStateRef.current) {
+                if (layoutState !== initialLayoutStateRef.current && ProviderComponent === WithLayout) {
                     updateLayoutTree(mapLayoutStateToLayoutTree(layoutState));
                 }
             }, [layoutState, updateLayoutTree, ProviderComponent]);

@@ -62,13 +62,15 @@ exports[`should not update layout if page is not the active Component of LayoutT
       </WithLayout(Home)>
     </main>
   </PrimaryLayout>
-  <WithLayout(Home)>
-    <Home>
+  <WithLayout(Foo)>
+    <Foo
+      setLayoutState={[Function]}
+    >
       <h1>
         Home
       </h1>
-    </Home>
-  </WithLayout(Home)>
+    </Foo>
+  </WithLayout(Foo)>
 </LayoutTree>
 `;
 

@@ -225,13 +225,21 @@ it('should fail if LayoutTree was not rendered', () => {
 it('should not update layout if page is not the active Component of LayoutTree', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
+    const Foo = ({ setLayoutState }) => {
+        useEffect(() => {
+            setLayoutState({ variant: 'dark' });
+        }, [setLayoutState]);
+
+        return <h1>Home</h1>;
+    };
+
     const EnhancedHome = withLayout(<PrimaryLayout />)(Home);
-    const AnotherEnhancedHome = withLayout(<SecondaryLayout />)(Home);
+    const EnhancedFoo = withLayout(() => <SecondaryLayout />)(Foo);
 
     const render = jest.fn((tree) => (
         <>
             { tree }
-            { <AnotherEnhancedHome /> }
+            { <EnhancedFoo /> }
         </>
     ));
 
