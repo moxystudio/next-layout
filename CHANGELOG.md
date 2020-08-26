@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/moxystudio/next-layout/compare/v2.2.0...v2.2.1) (2020-08-26)
+
+
+### Bug Fixes
+
+* avoid react warning if page component is not wrapped ([5cc5b8d](https://github.com/moxystudio/next-layout/commit/5cc5b8d50647e050e5916c0ebb83e4cbf6cf3774))
+
 ## [2.2.0](https://github.com/moxystudio/next-layout/compare/v2.1.6...v2.2.0) (2020-08-24)
 
 
