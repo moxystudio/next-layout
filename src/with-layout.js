@@ -16,7 +16,7 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
     return (Component) => {
         const WithLayout = forwardRef((_props, ref) => {
             const { pageKey, props } = useMemo(() => {
-                const { pageKey, ...props } = _props;
+                const { 'data-layout-page-key': pageKey, ...props } = _props;
 
                 return { pageKey, props };
             }, [_props]);

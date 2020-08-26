@@ -48,7 +48,10 @@ export default class LayoutTree extends PureComponent {
         const { defaultLayout, Component, pageProps, pageKey, children: render } = this.props;
         const { layoutTree } = this.state;
 
-        const page = <Component { ...pageProps } key={ pageKey } pageKey={ pageKey } />;
+        // Note that we use a data attribute to propagate the page key because Component might not be wrapped in WithLayout HOC.
+        // If we passed a regular `pageKey` property, and if the component spreaded the props, it would throw:
+        // "React does not recognize the `pageKey` prop on a DOM element"
+        const page = <Component { ...pageProps } key={ pageKey } data-layout-page-key={ pageKey } />;
         const fullTree = createFullTree(layoutTree ?? defaultLayout, page);
         const providerValue = this.getProviderValue(Component, pageKey);
 

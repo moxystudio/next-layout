@@ -57,8 +57,8 @@ exports[`should ignore setLayoutState calls if Component's pageKey is not the ac
   >
     <main>
       <WithLayout(Foo)
+        data-layout-page-key="foo"
         key="foo"
-        pageKey="foo"
       >
         <Foo
           setLayoutState={[Function]}
@@ -367,8 +367,8 @@ exports[`should update the layout tree correctly if pageKey changes 1`] = `
   >
     <main>
       <WithLayout(Home)
+        data-layout-page-key="foo"
         key="foo"
-        pageKey="foo"
       >
         <Home
           setLayoutState={[Function]}
@@ -399,8 +399,8 @@ exports[`should update the layout tree correctly if pageKey changes 2`] = `
   >
     <main>
       <WithLayout(Home)
+        data-layout-page-key="bar"
         key="bar"
-        pageKey="bar"
       >
         <Home
           setLayoutState={[Function]}
