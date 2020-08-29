@@ -32,8 +32,8 @@
     "url": "https://github.com/moxystudio/next-layout/issues"
   },
   "scripts": {
-    "build:commonjs": "BABEL_ENV=commonjs babel src -d lib --delete-dir-on-start",
-    "build:es": "BABEL_ENV=es babel src -d es --delete-dir-on-start",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src -d lib --delete-dir-on-start",
+    "build:es": "cross-env BABEL_ENV=es babel src -d es --delete-dir-on-start",
     "build": "npm run build:commonjs && npm run build:es",
     "test": "jest",
     "lint": "eslint --ignore-path .gitignore .",
@@ -52,24 +52,25 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
-    "@commitlint/config-conventional": "^8.3.4",
+    "@commitlint/config-conventional": "^9.0.0",
     "@moxy/babel-preset": "^3.2.1",
-    "@moxy/eslint-config-babel": "^12.3.0",
-    "@moxy/eslint-config-base": "^12.2.0",
-    "@moxy/eslint-config-jest": "^12.3.0",
-    "@moxy/eslint-config-react": "^12.3.0",
+    "@moxy/eslint-config-babel": "^13.0.0",
+    "@moxy/eslint-config-base": "^13.0.0",
+    "@moxy/eslint-config-jest": "^13.0.0",
+    "@moxy/eslint-config-react": "^13.0.0",
     "@moxy/jest-config-base": "^5.0.0",
     "@moxy/jest-config-enzyme": "^5.0.0",
     "@moxy/jest-config-web": "^5.0.0",
     "classnames": "^2.2.6",
-    "commitlint": "^8.3.5",
+    "commitlint": "^9.0.0",
+    "cross-env": "^7.0.2",
     "enzyme-adapter-react-16": "^1.15.2",
-    "eslint": "^6.0.0",
+    "eslint": "^7.0.0",
     "husky": "^4.0.10",
-    "jest": "^25.5.4",
+    "jest": "^26.0.0",
     "lint-staged": "^10.0.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "standard-version": "^7.1.0"
+    "standard-version": "^9.0.0"
   }
 }
