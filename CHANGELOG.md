@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.2](https://github.com/moxystudio/next-layout/compare/v2.2.1...v2.2.2) (2020-08-29)
+
+
+### Bug Fixes
+
+* do not forward data-layout-page-key ([602bfbf](https://github.com/moxystudio/next-layout/commit/602bfbfc06e2372f8fb5ed5fd735a8713895befb))
+
 ### [2.2.1](https://github.com/moxystudio/next-layout/compare/v2.2.0...v2.2.1) (2020-08-26)
 
 
