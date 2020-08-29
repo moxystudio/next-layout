@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import memoizeOne from 'memoize-one';
 import LayoutContext from './util/context';
 import createFullTree from './util/full-tree';
-import { getInitialLayoutTree } from './with-layout';
+import { getInitialLayoutTree, isComponentWrapped } from './with-layout';
 
 const LayoutProvider = LayoutContext.Provider;
 
@@ -48,10 +48,12 @@ export default class LayoutTree extends PureComponent {
         const { defaultLayout, Component, pageProps, pageKey, children: render } = this.props;
         const { layoutTree } = this.state;
 
-        // Note that we use a data attribute to propagate the page key because Component might not be wrapped in WithLayout HOC.
-        // If we passed a regular `pageKey` property, and if the component spreaded the props, it would throw:
-        // "React does not recognize the `pageKey` prop on a DOM element"
-        const page = <Component { ...pageProps } key={ pageKey } data-layout-page-key={ pageKey } />;
+        // Do not forward pageKey if the component is not wrapped, otherwise it would cause
+        // an error if props were spreaded into a DOM element:
+        // "React does not recognize the `pageKey` prop on a DOM element".
+        const isWrapped = isComponentWrapped(Component);
+        const page = <Component { ...pageProps } { ...(isWrapped && { pageKey }) } key={ pageKey } />;
+
         const fullTree = createFullTree(layoutTree ?? defaultLayout, page);
         const providerValue = this.getProviderValue(Component, pageKey);
 

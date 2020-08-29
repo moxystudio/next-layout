@@ -57,8 +57,8 @@ exports[`should ignore setLayoutState calls if Component's pageKey is not the ac
   >
     <main>
       <WithLayout(Foo)
-        data-layout-page-key="foo"
         key="foo"
+        pageKey="foo"
       >
         <Foo
           setLayoutState={[Function]}
@@ -119,6 +119,27 @@ exports[`should ignore setLayoutState calls if page is not the active Component 
       </h1>
     </Foo>
   </WithLayout(Foo)>
+</LayoutTree>
+`;
+
+exports[`should not forward pageKey if component in not wrapped with HOC 1`] = `
+<LayoutTree
+  Component={[Function]}
+  pageKey="foo"
+  pageProps={
+    Object {
+      "foo": "bar",
+    }
+  }
+>
+  <Home
+    foo="bar"
+    key="foo"
+  >
+    <h1>
+      Home
+    </h1>
+  </Home>
 </LayoutTree>
 `;
 
@@ -367,8 +388,8 @@ exports[`should update the layout tree correctly if pageKey changes 1`] = `
   >
     <main>
       <WithLayout(Home)
-        data-layout-page-key="foo"
         key="foo"
+        pageKey="foo"
       >
         <Home
           setLayoutState={[Function]}
@@ -399,8 +420,8 @@ exports[`should update the layout tree correctly if pageKey changes 2`] = `
   >
     <main>
       <WithLayout(Home)
-        data-layout-page-key="bar"
         key="bar"
+        pageKey="bar"
       >
         <Home
           setLayoutState={[Function]}

@@ -206,7 +206,7 @@ it('should not inject setLayoutState to pages if it is not needed', () => {
     expect(HomeMock).toHaveBeenCalledWith({}, {});
 });
 
-it('should fail if layout tree is not unary', () => {
+it('should throw if layout tree is not unary', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const NewsletterForm = () => <form />;
@@ -242,7 +242,7 @@ it('should allow passing a custom render prop to LayoutTree', () => {
     expect(render.mock.results[0].value).toMatchSnapshot();
 });
 
-it('should fail if LayoutTree was not rendered', () => {
+it('should throw if LayoutTree was not rendered', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const EnhancedHome = withLayout(<PrimaryLayout />)(Home);
@@ -315,4 +315,15 @@ it('should ignore setLayoutState calls if Component\'s pageKey is not the active
 
     expect(wrapper).toMatchSnapshot();
     expect(mapLayoutStateToLayoutTree).toHaveBeenCalledTimes(1);
+});
+
+it('should not forward pageKey if component in not wrapped with HOC', () => {
+    const wrapper = mount(
+        <LayoutTree
+            Component={ Home }
+            pageProps={ { foo: 'bar' } }
+            pageKey="foo" />,
+    );
+
+    expect(wrapper).toMatchSnapshot();
 });

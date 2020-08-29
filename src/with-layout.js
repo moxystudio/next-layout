@@ -16,7 +16,7 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
     return (Component) => {
         const WithLayout = forwardRef((_props, ref) => {
             const { pageKey, props } = useMemo(() => {
-                const { 'data-layout-page-key': pageKey, ...props } = _props;
+                const { pageKey, ...props } = _props;
 
                 return { pageKey, props };
             }, [_props]);
@@ -70,5 +70,7 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
 };
 
 export const getInitialLayoutTree = (Component, pageProps) => Component[getInitialLayoutTreeSymbol]?.(pageProps);
+
+export const isComponentWrapped = (Component) => !!Component[getInitialLayoutTreeSymbol];
 
 export default withLayout;
