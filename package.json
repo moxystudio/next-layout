@@ -52,7 +52,7 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
-    "@commitlint/config-conventional": "^9.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@moxy/babel-preset": "^3.2.1",
     "@moxy/eslint-config-babel": "^13.0.0",
     "@moxy/eslint-config-base": "^13.0.0",
@@ -62,7 +62,7 @@
     "@moxy/jest-config-enzyme": "^5.0.0",
     "@moxy/jest-config-web": "^5.0.0",
     "classnames": "^2.2.6",
-    "commitlint": "^9.0.0",
+    "commitlint": "^11.0.0",
     "cross-env": "^7.0.2",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^7.0.0",
