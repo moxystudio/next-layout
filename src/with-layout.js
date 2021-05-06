@@ -8,7 +8,7 @@ const toFunction = (fn) => typeof fn === 'function' ? fn : () => fn;
 const getInitialLayoutTreeSymbol = Symbol('getInitialLayoutTreeSymbol');
 
 const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) => {
-    const shouldInjectSetLayoutState = typeof mapLayoutStateToLayoutTree === 'function';
+    const shouldInjectLayoutStateProps = typeof mapLayoutStateToLayoutTree === 'function';
 
     mapLayoutStateToLayoutTree = toFunction(mapLayoutStateToLayoutTree);
     mapPropsToInitialLayoutState = toFunction(mapPropsToInitialLayoutState);
@@ -49,7 +49,7 @@ const withLayout = (mapLayoutStateToLayoutTree, mapPropsToInitialLayoutState) =>
             return useMemo(() => (
                 <Component
                     ref={ ref }
-                    { ...(shouldInjectSetLayoutState ? { setLayoutState } : {}) }
+                    { ...(shouldInjectLayoutStateProps ? { layoutState, setLayoutState } : {}) }
                     { ...props } />
             ), [ref, setLayoutState, props]);
         });
