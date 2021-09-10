@@ -4,6 +4,7 @@
   "description": "Add persistent and nested layouts to your Next.js projects in a declarative way",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "types": "next-layout.d.ts",
   "files": [
     "lib",
     "es",
@@ -71,6 +72,7 @@
     "lint-staged": "^10.5.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "next": "^10.0.0",
     "standard-version": "^9.1.1"
   }
 }
